@@ -1,3 +1,43 @@
-# Add patterns of files dvc should ignore, which could improve
-# the performance. Learn more at
-# https://dvc.org/doc/user-guide/dvcignore
+# Ignore virtual environments
+.venv/
+env/
+ENV/
+*.env
+
+# Ignore temporary or editor-specific files
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore Jupyter checkpoints and output artifacts
+**/.ipynb_checkpoints/
+**/*.out
+**/*.bak
+
+# Ignore local model artifacts (if not tracked via DVC)
+*.pkl
+*.joblib
+
+# Ignore experiments folders (if any)
+.experiments/
+checkpoints/
+runs/
+wandb/
+mlruns/
+tensorboard/
+
+# Ignore OS-specific metadata
+ehthumbs.db
+desktop.ini
+
+# Kaggle API credentials
+.kaggle/
+.kaggle/kaggle.json

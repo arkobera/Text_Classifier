@@ -87,4 +87,10 @@ target/
 
 # Mypy cache
 .mypy_cache/
-.kaggle/
+.kaggle/kaggle.json
+/data/raw/
+/data/processed/
+/data/model_test_and_prediction/
+/models/XGBClassifier.pkl
+
+.dvc/cache/

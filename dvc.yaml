@@ -1,0 +1,43 @@
+stages:
+
+  data_ingestion:
+    cmd: python -m src.data.data_ingestion
+    deps:
+    - src/data/data_ingestion.py
+    - src/connections/kaggle_connection.py
+    - .kaggle/kaggle.json
+    outs:
+    - data/raw
+
+  data_preprocessing:
+    cmd: python -m src.data.data_preprocessing
+    deps:
+    - src/data/data_preprocessing.py
+    - data/raw
+    outs:
+    - data/processed
+
+  model_building:
+    cmd: python -m src.model.model_builder
+    deps:
+    - src/model/model_builder.py
+    - data/processed
+    outs:
+    - data/model_test_and_prediction
+    - models/XGBClassifier.pkl
+
+  model_evaluator:
+    cmd: python -m src.model.model_evaluator
+    deps:
+    - src/model/model_evaluator.py
+    - data/model_test_and_prediction
+    - models/XGBClassifier.pkl
+    outs:
+    - reports/RES.json
+    - reports/exp_info.json
+
+  model_registration:
+    cmd: python -m src.model.model_registry
+    deps:
+    - src/model/model_registry.py
+    - reports/exp_info.json

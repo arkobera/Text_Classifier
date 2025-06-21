@@ -1,0 +1,99 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -m src.data.data_ingestion
+    deps:
+    - path: .kaggle/kaggle.json
+      hash: md5
+      md5: 5eae06cc86ede0c4d4b54661428a0e68
+      size: 71
+    - path: src/connections/kaggle_connection.py
+      hash: md5
+      md5: 744742c8b08301c5de69a10a2f0d69e1
+      size: 2094
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: 7532a8e53124d282b099ea2a811f911a
+      size: 3625
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: a80a56e85f6bf52796be9d251dc58e46.dir
+      size: 127958
+      nfiles: 4
+  data_preprocessing:
+    cmd: python -m src.data.data_preprocessing
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: a80a56e85f6bf52796be9d251dc58e46.dir
+      size: 127958
+      nfiles: 4
+    - path: src/data/data_preprocessing.py
+      hash: md5
+      md5: f3730faadb7ff7c167c2f3980ecaccca
+      size: 2246
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 790aaa7f2fa7da2ae064039d8009b535.dir
+      size: 148783
+      nfiles: 2
+  model_building:
+    cmd: python -m src.model.model_builder
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 790aaa7f2fa7da2ae064039d8009b535.dir
+      size: 148783
+      nfiles: 2
+    - path: src/model/model_builder.py
+      hash: md5
+      md5: 86c851b1d1ab236bdea9f9793fbfe650
+      size: 6200
+    outs:
+    - path: data/model_test_and_prediction
+      hash: md5
+      md5: 5fd656edfa42b75716bb1d334fb24ace.dir
+      size: 20337
+      nfiles: 2
+    - path: models/XGBClassifier.pkl
+      hash: md5
+      md5: cdf3acd527028b8c1a5c5f9f65c3d739
+      size: 2055919
+  model_evaluator:
+    cmd: python -m src.model.model_evaluator
+    deps:
+    - path: data/model_test_and_prediction
+      hash: md5
+      md5: 5fd656edfa42b75716bb1d334fb24ace.dir
+      size: 20337
+      nfiles: 2
+    - path: models/XGBClassifier.pkl
+      hash: md5
+      md5: cdf3acd527028b8c1a5c5f9f65c3d739
+      size: 2055919
+    - path: src/model/model_evaluator.py
+      hash: md5
+      md5: 9991ac63d093e907d3e0674f947108b8
+      size: 4551
+    outs:
+    - path: reports/RES.json
+      hash: md5
+      md5: b8205932192a8dde44261be083bbec03
+      size: 145
+    - path: reports/exp_info.json
+      hash: md5
+      md5: 82051f5e4f954209ec0e8b8339cdb9b7
+      size: 101
+  model_registration:
+    cmd: python -m src.model.model_registry
+    deps:
+    - path: reports/exp_info.json
+      hash: md5
+      md5: 82051f5e4f954209ec0e8b8339cdb9b7
+      size: 101
+    - path: src/model/model_registry.py
+      hash: md5
+      md5: 7b7c6c35718386f97031ed649c63e735
+      size: 2013
