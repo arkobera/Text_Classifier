@@ -130,8 +130,8 @@ class ModelBuilder:
 def main():
     # Example usage
     model_params = {
-        'n_estimators': 1000,
-        'max_depth': 6,
+        'n_estimators': 500,
+        'max_depth': 4,
         'learning_rate': 0.01,
         'objective': 'binary:logistic',
         'eval_metric': 'logloss'
